@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'preact/hooks';
+import { Analytics } from '@vercel/analytics/react';
 
 const API = "https://portoantico.it/wp-json/porto-antico/v1/parking";
 const INTERVAL = 30_000;
@@ -12,6 +13,8 @@ const i18n = {
     map: "Mappa",
     freeSpots: "posti liberi",
     refreshInfo: "Aggiornamento automatico ogni 30 secondi",
+    privacy: "Privacy & Analytics",
+    privacyInfo: "Usiamo Vercel Analytics per migliorare il servizio. Non vengono raccolti dati personali o cookie. Conforme al GDPR.",
     labels: {
       high: "Disponibile",
       low: "Posti limitati",
@@ -27,6 +30,8 @@ const i18n = {
     map: "Map",
     freeSpots: "free spots",
     refreshInfo: "Automatic update every 30 seconds",
+    privacy: "Privacy & Analytics",
+    privacyInfo: "We use Vercel Analytics to improve the service. No personal data or cookies are collected. GDPR compliant.",
     labels: {
       high: "Available",
       low: "Limited spots",
@@ -48,6 +53,7 @@ export function App() {
   const [lang, setLang] = useState('it');
   const [lastUpdated, setLastUpdated] = useState(null);
   const [status, setStatus] = useState({ isError: false, isLoading: true, errorMsg: '' });
+  const [showPrivacy, setShowPrivacy] = useState(false);
 
   const t = i18n[lang];
 
@@ -131,8 +137,21 @@ export function App() {
         <p>{t.refreshInfo} · portoantico.it</p>
         <p style={{ marginTop: '8px' }}>
           Made with ❤️ by <a href="https://github.com/Sarah86" target="_blank" rel="noopener noreferrer" style={{ color: '#00427a', fontWeight: 'bold', textDecoration: 'none' }}>Sarah86</a>
+          {' · '}
+          <button 
+            onClick={() => setShowPrivacy(!showPrivacy)} 
+            style={{ background: 'none', border: 'none', color: '#00427a', cursor: 'pointer', padding: 0, font: 'inherit', textDecoration: 'underline' }}
+          >
+            {t.privacy}
+          </button>
         </p>
+        {showPrivacy && (
+          <div style={{ marginTop: '8px', fontSize: '0.85em', color: '#666', maxWidth: '400px', margin: '8px auto' }}>
+            {t.privacyInfo}
+          </div>
+        )}
       </footer>
+      <Analytics />
     </>
   );
 }
