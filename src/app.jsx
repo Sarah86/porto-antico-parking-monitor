@@ -81,11 +81,11 @@ export function App() {
   return (
     <>
       <header>
+        <h1>{t.title}</h1>
         <div className="lang-switch">
           <button onClick={() => setLang('it')} className={lang === 'it' ? 'active' : ''}>IT</button>
           <button onClick={() => setLang('en')} className={lang === 'en' ? 'active' : ''}>EN</button>
         </div>
-        <h1>{t.title}</h1>
         <div id="status" className={status.isError ? 'error' : ''}>
           {status.isLoading && <span className="spinner"></span>}
           {status.isError ? `${t.error}: ${status.errorMsg}` : 
